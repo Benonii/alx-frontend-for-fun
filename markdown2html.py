@@ -23,7 +23,9 @@ if __name__ == "__main__":
 
     markdown_lines = parse_markdown(args[1])
     html_content = ""
-    list = []
+    unordered_list = []
+    ordered_list = []
+
     for line in markdown_lines:
         if line.startswith("# "):
             html_content += f"<h1>{line[2:-1]}</h1>\n"
@@ -38,15 +40,23 @@ if __name__ == "__main__":
         elif line.startswith("###### "):
             html_content += f"<h6>{line[7:-1]}</h6>\n"
         elif line.startswith("- "):
-            list.append(line)
+            unordered_list.append(line)
+        elif line.startswith("* "):
+            ordered_list.append(line)
         else:
             html_content += f"<p>{line}</p>" + "\n"
 
-    if list:
+    if unordered_list:
         html_content += "<ul>\n"
-        for element in list:
+        for element in unordered_list:
             html_content += f"<li>{element[2:-1]}</li>\n"
         html_content += "</ul>\n"
+
+    if ordered_list:
+        html_content += "<ol>\n"
+        for element in ordered_list:
+            html_content += f"<li>{element[2:-1]}</li>\n"
+        html_content += "</ol>\n"
 
     # def write_to_html(html_content, html_file):
     with open(args[2], "w", encoding="utf-8") as f:
