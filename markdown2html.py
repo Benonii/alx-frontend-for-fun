@@ -4,6 +4,7 @@
 
 import sys
 import os
+import hashlib
 
 
 if __name__ == "__main__":
@@ -66,8 +67,24 @@ if __name__ == "__main__":
                         new_line += char
                         char = next(iterator)
                     new_line += "</em>"
+                elif char == "[" and next(iterator) == "[":
+                    to_hash = ""
+                    md5 = hashlib.md5()
+                    char = next(iterator)
+                    while not (char == "]" and next(iterator) == "]"):
+                        to_hash += char
+                        char = next(iterator)
+                    md5.update(to_hash.encode())
+                    new_line += md5.hexdigest()
+                elif char == "(" and next(iterator) == "(":
+                    char = next(iterator)
+                    while not (char == ")" and next(iterator) == ")"):
+                        if char not in ['c', 'C']:
+                            new_line += char
+                        char = next(iterator)
+
                 else:
-                    if char != "*" or char != "_":
+                    if char not in ["*", "_", "[", "]", "(", ")"]:
                         new_line += char
 
             paragraph.append(new_line)
@@ -93,8 +110,25 @@ if __name__ == "__main__":
                         new_line += char
                         char = next(iterator)
                     new_line += "</em>"
+                    new_line += "</em>"
+                elif char == "[" and next(iterator) == "[":
+                    to_hash = ""
+                    md5 = hashlib.md5()
+                    char = next(iterator)
+                    while not (char == "]" and next(iterator) == "]"):
+                        to_hash += char
+                        char = next(iterator)
+                    md5.update(to_hash.encode())
+                    new_line += md5.hexdigest()
+                elif char == "(" and next(iterator) == "(":
+                    char = next(iterator)
+                    while not (char == ")" and next(iterator) == ")"):
+                        if char not in ['c', 'C']:
+                            new_line += char
+                        char = next(iterator)
+
                 else:
-                    if char != "*" or char != "_":
+                    if char not in ["*", "_", "[", "]", "(", ")"]:
                         new_line += char
 
             html_content += f"<li>{new_line[2:-1]}</li>\n"
@@ -102,8 +136,47 @@ if __name__ == "__main__":
 
     if ordered_list:
         html_content += "<ol>\n"
+        for element in unordered_list:
+            new_line = ""
+            iterator = iter(element)
+            for char in iterator:
+                if char == "*" and next(iterator) == "*":
+                    new_line += "<b>"
+                    char = next(iterator)
+                    # char = next(iterator)
+                    while not (char == "*" and next(iterator) == "*"):
+                        new_line += char
+                        char = next(iterator)
+                    new_line += "</b>"
+                elif char == "_" and next(iterator) == "_":
+                    new_line += "<em>"
+                    char = next(iterator)
+                    while not (char == "_" and next(iterator) == "_"):
+                        new_line += char
+                        char = next(iterator)
+                    new_line += "</em>"
+                elif char == "[" and next(iterator) == "[":
+                    to_hash = ""
+                    md5 = hashlib.md5()
+                    char = next(iterator)
+                    while not (char == "]" and next(iterator) == "]"):
+                        to_hash += char
+                        char = next(iterator)
+                    md5.update(to_hash.encode())
+                    new_line += md5.hexdigest()
+                elif char == "(" and next(iterator) == "(":
+                    char = next(iterator)
+                    while not (char == ")" and next(iterator) == ")"):
+                        if char not in ['c', 'C']:
+                            new_line += char
+                        char = next(iterator)
+
+                else:
+                    if char not in ["*", "_", "[", "]", "(", ")"]:
+                        new_line += char
+
         for element in ordered_list:
-            html_content += f"<li>{element[2:-1]}</li>\n"
+            html_content += f"<li>{new_line[2:-1]}</li>\n"
         html_content += "</ol>\n"
 
     if paragraph != "":
