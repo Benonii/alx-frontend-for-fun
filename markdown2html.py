@@ -26,6 +26,8 @@ if __name__ == "__main__":
     unordered_list = []
     ordered_list = []
     paragraph = []
+    bold_text = ""
+    em_text = ""
 
     for line in markdown_lines:
         if line.startswith("# "):
@@ -45,12 +47,57 @@ if __name__ == "__main__":
         elif line.startswith("* "):
             ordered_list.append(line)
         else:
-            paragraph.append(line)
+            new_line = ""
+            iterator = iter(line)
+            for char in iterator:
+                if char == "*" and next(iterator) == "*":
+                    index = line.index(char)
+                    new_line += "<b>"
+                    char = next(iterator)
+                    while not (char == "*" and next(iterator) == "*"):
+                        new_line += char
+                        char = next(iterator)
+                    new_line += "</b>"
+
+                elif char == "_" and next(iterator) == "_":
+                    new_line += "<em>"
+                    char = next(iterator)
+                    while not (char == "_" and next(iterator) == "_"):
+                        new_line += char
+                        char = next(iterator)
+                    new_line += "</em>"
+                else:
+                    if char != "*" or char != "_":
+                        new_line += char
+
+            paragraph.append(new_line)
 
     if unordered_list:
         html_content += "<ul>\n"
         for element in unordered_list:
-            html_content += f"<li>{element[2:-1]}</li>\n"
+            new_line = ""
+            iterator = iter(element)
+            for char in iterator:
+                if char == "*" and next(iterator) == "*":
+                    new_line += "<b>"
+                    char = next(iterator)
+                    # char = next(iterator)
+                    while not (char == "*" and next(iterator) == "*"):
+                        new_line += char
+                        char = next(iterator)
+                    new_line += "</b>"
+                elif char == "_" and next(iterator) == "_":
+                    new_line += "<em>"
+                    char = next(iterator)
+                    while not (char == "_" and next(iterator) == "_"):
+                        new_line += char
+                        char = next(iterator)
+                    new_line += "</em>"
+                else:
+                    if char != "*" or char != "_":
+                        new_line += char
+
+            html_content += f"<li>{new_line[2:-1]}</li>\n"
         html_content += "</ul>\n"
 
     if ordered_list:
@@ -73,10 +120,15 @@ if __name__ == "__main__":
                             if line == "\n":
                                 continue
                             html_content += "\n<br/>\n"
-                    except exception as e:
+                    except Exception as e:
                         html_content += "\n</p>\n"
                 else:
                     html_content += char
+
+    if bold_text:
+        html_content += f"<b>{bold_text}</b>"
+    if em_text:
+        html_content += f"<em>{em_text}</em"
 
     # def write_to_html(html_content, html_file):
     with open(args[2], "w", encoding="utf-8") as f:
