@@ -25,6 +25,7 @@ if __name__ == "__main__":
     html_content = ""
     unordered_list = []
     ordered_list = []
+    paragraph = []
 
     for line in markdown_lines:
         if line.startswith("# "):
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         elif line.startswith("* "):
             ordered_list.append(line)
         else:
-            html_content += f"<p>{line}</p>" + "\n"
+            paragraph.append(line)
 
     if unordered_list:
         html_content += "<ul>\n"
@@ -57,6 +58,25 @@ if __name__ == "__main__":
         for element in ordered_list:
             html_content += f"<li>{element[2:-1]}</li>\n"
         html_content += "</ol>\n"
+
+    if paragraph != "":
+        html_content += "<p>\n"
+
+        for line in paragraph:
+            for char in line:
+                if char == "\n":
+                    try:
+                        next_line = paragraph[paragraph.index(line) + 1]
+                        if next_line == "\n":
+                            html_content += "\n</p>\n<p>\n"
+                        else:
+                            if line == "\n":
+                                continue
+                            html_content += "\n<br/>\n"
+                    except exception as e:
+                        html_content += "\n</p>\n"
+                else:
+                    html_content += char
 
     # def write_to_html(html_content, html_file):
     with open(args[2], "w", encoding="utf-8") as f:
