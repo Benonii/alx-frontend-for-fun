@@ -10,11 +10,11 @@ import hashlib
 if __name__ == "__main__":
     args = sys.argv
     if len(args) != 3:
-        print("Usage: ./markdown2html.py README.md README.html")
+        sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
         sys.exit(1)
 
     elif not os.path.exists(args[1]):
-        print(f"Missing {args[1]}")
+        sys.stderr.write(f"Missing {args[1]}\n")
         sys.exit(1)
 
     else:
