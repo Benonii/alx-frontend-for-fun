@@ -181,7 +181,7 @@ if __name__ == "__main__":
                 html_content += f"<li>{new_line[2:-1]}</li>\n"
             html_content += "</ol>\n"
 
-        if paragraph != "":
+        if paragraph != []:
             html_content += "<p>\n"
 
             for line in paragraph:
