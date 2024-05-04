@@ -580,6 +580,7 @@
     }
   /* Post Meta
       ============================= */
+
     .post-meta-list {
         flex-direction: column;
     }
@@ -588,7 +589,7 @@
         color: var(--color-primary);
         font-size: var(--font-size-small);
         text-transform: uppercase;
-        display: black;
+        display: block;
     }
 
     .post-meta-list [class^="post-meta-"] {
