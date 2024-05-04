@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    width: 1000px;
+    height: 200px;
+}
+.container .box {
+    display: flex;
+    width: 140px;
+    height: 30px;
+
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.container .box1 {
+    background-color: rgb(91, 66, 233);
+    height: 28%;
+    width: 8%;
+    font-size: 120%;
+}
+
+.container .box2 {
+    background-color: rgb(66, 233, 66);
+    height: 40%;
+    width: 15%;
+    font-size: 225%;
+}
+
+.container .box3 {
+    background-color: rgb(233, 175, 66);
+    height: 60%;
+    width: 20%;
+    font-size: 390%;
+
+}
+
+.container .box4 {
+    background-color: rgb(233, 66, 233);
+    height: 40%;
+    width: 15%;
+    font-size: 225%;
+}
+
+.container .box5 {
+    background-color: rgb(233, 66, 66);
+    height: 28%;
+    width: 8%;
+    font-size: 120%;
+}
