@@ -1,0 +1,5 @@
+@for $level from 1 to 6 {
+    H#{$level} {
+        font-size: #{$level}px;
+    }
+}
