@@ -1,0 +1,50 @@
+@use '@sass-fairy/list';
+@import '103-sort_list';
+
+$default-sort-order: a b c d e f g h i j k l m n o p q r s t u v w x y z !default;
+
+@function compare-strings($string-a, $string-b, $order: $default-sort-order) {
+    $string-a: to-lower-case($string-a + unquote(''));
+    $string-b: to-lower-case($string-b + unquote(''));
+
+    @for $i from 1 through min(str-length($string-a), str-length($string-b)) {
+        $char-a: str-slice($string-a, $i, $i);
+        $char-b: str-slice($string-b, $i, $i);
+
+        @if $char-a and $char-b and index($order, $char-a) != index($order, $char-b)
+        {
+            @return index($order, $char-a) < index($order, $char-b);
+        }
+    }
+
+    @return str-length($string-a) < str-length($string-b);
+
+}
+
+@function swap($list, $index-a, $index-b) {
+    @if abs($index-a) > length($list) or abs($index-b) > length($list) {
+        @return $list;
+    }
+
+    $tmp: nth($list, $index-a);
+    $list: set-nth($list, $index-a, nth($list, $index-b));
+    $list: set-nth($list, $index-b, $tmp);
+    @return $list;
+}
+
+@function sort_list($list, $order: $default-sort-order) {
+    @for $i from 1 through length($list) {
+        @for $j from $i * -1 through -1 {
+            $j: abs($j);
+            
+            @if $j > 1 and compare-strings(nth($list, $j), nth($list, $j - 1), $order) {
+                $list: swap($list, $j, $j - 1);
+            }
+        }
+    }
+    @return $list;
+}
+
+
+@debug sort_list($list_to_sort);
+
