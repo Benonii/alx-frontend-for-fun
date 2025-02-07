@@ -1,14 +1,8 @@
 /* My style */
 @debug 'Hello world';
 
-$text-color: #3d3d3d;
-
 body {
     .container {
-        color: $text-color;
+        color: #3D3D3D;
     }
-}
-
-p {
-    color: $text-color;
 }
